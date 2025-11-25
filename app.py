@@ -23,20 +23,20 @@ def create_model(num_classes=11):
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     return model
 
-if not os.path.exists('coco_object_detector.pth'):
-    print("Downloading model from Google Drive...")
-    url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
-    gdown.download(url, 'coco_object_detector.pth', quiet=False, fuzzy=True)
-    print("Model downloaded!")
+# if not os.path.exists('coco_object_detector.pth'):
+#     print("Downloading model from Google Drive...")
+#     url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
+#     gdown.download(url, 'coco_object_detector.pth', quiet=False, fuzzy=True)
+#     print("Model downloaded!")
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = create_model(num_classes=11)
 
-try:
-    model.load_state_dict(torch.load('coco_object_detector.pth', map_location=device))
-    print("Model loaded successfully")
-except Exception as e:
-    print(f"Error loading model: {e}")
+# try:
+#     model.load_state_dict(torch.load('coco_object_detector.pth', map_location=device))
+#     print("Model loaded successfully")
+# except Exception as e:
+#     print(f"Error loading model: {e}")
 
 model.to(device)
 model.eval()
