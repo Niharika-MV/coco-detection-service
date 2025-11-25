@@ -27,11 +27,16 @@ def create_model(num_classes=11):
     return model
 
 # Download model from Google Drive if not present
+# Download model from Google Drive if not present
 if not os.path.exists('coco_object_detector.pth'):
-    print("Downloading model from Google Drive...")
-    url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
-    gdown.download(url, 'coco_object_detector.pth', quiet=False)
-    print("✓ Model downloaded!")
+    try:
+        print("Downloading model from Google Drive...")
+        url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
+        gdown.download(url, 'coco_object_detector.pth', quiet=False, fuzzy=True)
+        print("✓ Model downloaded!")
+    except Exception as e:
+        print(f"⚠ Warning: Could not download model: {e}")
+        print("⚠ Service will use pre-trained weights only")
 
 # Initialize model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
